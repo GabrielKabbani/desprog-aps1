@@ -1,15 +1,15 @@
 #include <math.h>
+#include <stdlib.h>
 
 #include "geometry.h"
 
 int verify(point p, point a, point b) {
-    
-
 
     int max_x;
     int max_y;
     int min_x;
     int min_y;
+
     if (a.x>b.x){
         max_x=a.x;
         min_x=b.x;
@@ -32,12 +32,18 @@ int verify(point p, point a, point b) {
     double xoxo = p.x - a.x;
     double dif = abs(yoyo - m*xoxo);
     
+    if((p.y==a.y) | (p.y==b.y)){ // rotaçao a esquerda (perturbacao)
+        p.y*=0.90;
+    }
 
-    if ((dif>0.000001) && (p.x<=max_x) && (p.x >= min_x) && (p.y<=max_y) && (p.y>=min_y)){ //Falta adaptar double
+
+    int position = (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);
+
+    if (((dif<0.000001) && (p.x<=max_x) && (p.x >= min_x) && (p.y<=max_y) && (p.y>=min_y)) && position == 0){ //Falta adaptar double
         return 2;
     }
     
-    if ((p.y<=max_y) && (p.y>= min_y) && (p.x<max_x)){//Falta adaptar perturbacao
+    if (((p.y<=max_y) && (p.y>= min_y) && (p.x<max_x)) && position <0){//Falta adaptar perturbacao ADD O maior que MIN 
         return 1;
     } 
 
