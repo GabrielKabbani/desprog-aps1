@@ -91,5 +91,25 @@ int verify(point p, point a, point b) {
 }
 
 int inside(point p, point poly[], int n) {
+    int cruzadas=0;
+    for (int i=0; i<n-1; i++){
+        if (verify(p, poly[i], poly[i+1])==2){
+            return 1;
+        }
+        if (verify(p, poly[i], poly[i+1])==1){
+            cruzadas+=1;
+        }
+    }
+    if (verify(p, poly[0], poly[n-1])==2){
+            return 1;
+        }
+    if (verify(p, poly[0], poly[n-1])==1){
+            cruzadas+=1;
+        }
+
+
+    if (cruzadas%2 != 0){
+        return 1;
+    }
     return 0;
-}
+}  
